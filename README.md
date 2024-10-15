@@ -6,4 +6,4 @@ In this project, the folder named **`server`** is designated for **CA1**. This i
 
 ### Client Folder: CA2
 
-In the future, the folder named _`client`_ will be designated for CA2. This will serve as the frontend part of the application, built using React Native.
+In the future, the folder named **`client`** will be designated for **CA2**. This will serve as the frontend part of the application, built using **React Native**.
