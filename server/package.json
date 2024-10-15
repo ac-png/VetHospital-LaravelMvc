@@ -1,14 +1,18 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "Alice Corry",
   "license": "ISC",
-  "description": "",
+  "description": "A REST API built with Node.js, Express, and MongoDB, featuring user authentication and data management.",
   "dependencies": {
     "express": "^4.21.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ac-png/VetHospital.git"
   }
 }
