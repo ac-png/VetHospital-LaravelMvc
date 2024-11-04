@@ -19,6 +19,7 @@
     "url": "git+https://github.com/ac-png/VetHospital.git"
   },
   "devDependencies": {
+    "@faker-js/faker": "^9.2.0",
     "nodemon": "^3.1.7"
   }
 }
