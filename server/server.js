@@ -1,13 +1,11 @@
 const express = require('express');
+const jwt = require('jsonwebtoken');
 const app = express();
 const port = 5001;
 
-app.use(express.static(__dirname + '/views/'));
-
-app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/views/index.html');
-});
+require('dotenv').config();
+require('./config/db.js')();
 
 app.listen(port, () => {
-    console.log(`Example app listening at http://localhost:${port}`);
+    console.log(`Example app listening on port ${port}`);
 });
