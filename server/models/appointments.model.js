@@ -6,6 +6,10 @@ const appointmentSchema = new Schema({
         ref: 'Patient',
         required: [true, 'Patient is required']
     },
+    vet: {
+        type: String,
+        required: [true, 'Vet field is required']
+    },
     appointment_date: {
         type: Date,
         required: [true, 'Date field is required']

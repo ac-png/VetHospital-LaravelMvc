@@ -17,6 +17,10 @@ const patientSchema = new Schema({
         type: Number,
         required: [true, 'Age is required']
     },
+    owner: {
+        type: String,
+        required: [true, 'Owner field is required']
+    },
     image: {
         type: String,
     }
