@@ -17,12 +17,16 @@ const Treatments = require('./models/treatments.model');
 const seedMedications = require('./seeds/medications');
 const Medications = require('./models/medications.model');
 
+const seedRoles = require('./seeds/role');
+const Role = require('./models/role.model');
+
 const clearDatabase = async () => {
     await Patient.deleteMany({});
     await Appointments.deleteMany({});
     await Billing.deleteMany({});
     await Treatments.deleteMany({});
     await Medications.deleteMany({});
+    await Role.deleteMany({});
 };
 
 const seedDatabase = async () => {
@@ -32,6 +36,7 @@ const seedDatabase = async () => {
     await seedBilling(10);
     await seedTreatments(10);
     await seedMedications(10);
+    await seedRoles(3);
 };
 
 module.exports = seedDatabase;
