@@ -5,6 +5,9 @@ const port = 5001;
 require('dotenv').config();
 require('./config/db.js')();
 
+const seedDatabase = require('./seed.js'); // Make sure this exports a function
+seedDatabase();
+
 app.use(express.json());
 app.use(express.static(__dirname + '/views/'));
 
