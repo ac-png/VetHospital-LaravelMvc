@@ -15,7 +15,7 @@ const billingSchema = new Schema({
         type: Date,
         required: [true, 'Date field is required']
     },
-    Amount: {
+    amount: {
         type: Number,
         required: [true, 'Amount field is required']
     },
