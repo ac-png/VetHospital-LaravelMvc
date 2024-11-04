@@ -1,4 +1,4 @@
-const Medication = require('../models/medication.model');
+const Medication = require('../models/medications.model');
 
 const readAll = (req, res) => {
 };

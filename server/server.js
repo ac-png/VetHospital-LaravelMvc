@@ -8,7 +8,11 @@ require('./config/db.js')();
 app.use(express.json());
 app.use(express.static(__dirname + '/views/'));
 
+app.use('/api/appointments', require('./routes/appointments'))
+app.use('/api/billing', require('./routes/billing'))
 app.use('/api/patients', require('./routes/patients'))
+app.use('/api/medications', require('./routes/medications'))
+app.use('/api/treatments', require('./routes/treatments'))
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);
