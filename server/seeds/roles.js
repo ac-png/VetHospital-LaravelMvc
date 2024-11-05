@@ -1,4 +1,4 @@
-const Role = require('../models/role.model');
+const Role = require('../models/roles.model');
 
 const seedRoles = async (num) => {
     const roles = [
