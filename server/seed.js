@@ -2,25 +2,25 @@ const mongoose = require('mongoose');
 require('dotenv').config();
 require('./config/db.js')();
 
-const seedPatients = require('./seeds/patients');
+const seedPatients = require('./seeds/patients.seed.js');
 const Patient = require('./models/patients.model.js');
 
-const seedAppointments = require('./seeds/appointments');
+const seedAppointments = require('./seeds/appointments.seed.js');
 const Appointments = require('./models/appointments.model');
 
-const seedBilling = require('./seeds/billing');
+const seedBilling = require('./seeds/billing.seed.js');
 const Billing = require('./models/billing.model');
 
-const seedTreatments = require('./seeds/treatments');
+const seedTreatments = require('./seeds/treatments.seed.js');
 const Treatments = require('./models/treatments.model');
 
-const seedMedications = require('./seeds/medications');
+const seedMedications = require('./seeds/medications.seed.js');
 const Medications = require('./models/medications.model');
 
-const seedRoles = require('./seeds/roles');
+const seedRoles = require('./seeds/roles.seed.js');
 const Role = require('./models/roles.model');
 
-const seedUsers = require('./seeds/users');
+const seedUsers = require('./seeds/users.seed.js');
 const User = require('./models/users.model');
 
 const clearDatabase = async () => {
