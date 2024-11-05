@@ -39,11 +39,8 @@ const seedDatabase = async () => {
     await seedRoles(3);
 };
 
-module.exports = seedDatabase;
-
 const startSeeding = async () => {
     await seedDatabase();
-    mongoose.disconnect();
     console.log('Seeding completed.');
 };
 
