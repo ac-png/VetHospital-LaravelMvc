@@ -1,6 +1,6 @@
 const { faker } = require('@faker-js/faker');
-const Appointment = require('../models/appointments.model');
-const Patient = require('../models/patients.model');
+const Appointment = require('../models/appointment.model');
+const Patient = require('../models/patient.model');
 
 const seedAppointments = async (num) => {
     const patients = await Patient.find();

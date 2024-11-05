@@ -1,5 +1,5 @@
 const { faker } = require('@faker-js/faker');
-const Medication = require('../models/medications.model');
+const Medication = require('../models/medication.model');
 
 const seedMedications = async (num) => {
     const medications = [];

@@ -2,26 +2,26 @@ const mongoose = require('mongoose');
 require('dotenv').config();
 require('./config/db.js')();
 
-const seedPatients = require('./seeds/patients.seed.js');
-const Patient = require('./models/patients.model.js');
+const seedPatients = require('./seeds/patient.seed.js');
+const Patient = require('./models/patient.model.js');
 
-const seedAppointments = require('./seeds/appointments.seed.js');
-const Appointments = require('./models/appointments.model');
+const seedAppointments = require('./seeds/appointment.seed.js');
+const Appointments = require('./models/appointment.model.js');
 
 const seedBilling = require('./seeds/billing.seed.js');
 const Billing = require('./models/billing.model');
 
-const seedTreatments = require('./seeds/treatments.seed.js');
-const Treatments = require('./models/treatments.model');
+const seedTreatments = require('./seeds/treatment.seed.js');
+const Treatments = require('./models/treatment.model.js');
 
-const seedMedications = require('./seeds/medications.seed.js');
-const Medications = require('./models/medications.model');
+const seedMedications = require('./seeds/medication.seed.js');
+const Medications = require('./models/medication.model.js');
 
-const seedRoles = require('./seeds/roles.seed.js');
-const Role = require('./models/roles.model');
+const seedRoles = require('./seeds/role.seed.js');
+const Role = require('./models/role.model.js');
 
-const seedUsers = require('./seeds/users.seed.js');
-const User = require('./models/users.model');
+const seedUsers = require('./seeds/user.seed.js');
+const User = require('./models/user.model.js');
 
 const clearDatabase = async () => {
     await Patient.deleteMany({});

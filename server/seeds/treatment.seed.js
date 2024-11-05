@@ -1,6 +1,6 @@
-const Treatment = require('../models/treatments.model');
-const Patient = require('../models/patients.model');
-const Medication = require('../models/medications.model');
+const Treatment = require('../models/treatment.model');
+const Patient = require('../models/patient.model');
+const Medication = require('../models/medication.model');
 
 const seedTreatments = async (num) => {
     const patients = await Patient.find();

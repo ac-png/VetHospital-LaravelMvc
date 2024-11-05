@@ -1,6 +1,6 @@
 const { faker } = require('@faker-js/faker');
-const User = require('../models/users.model');
-const Role = require('../models/roles.model');
+const User = require('../models/user.model');
+const Role = require('../models/role.model');
 
 const seedUsers = async (num) => {
     const roles = await Role.find();

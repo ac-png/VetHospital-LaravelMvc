@@ -1,4 +1,4 @@
-const Patient = require('../models/patients.model');
+const Patient = require('../models/patient.model');
 
 const readAll = (req, res) => {
 };

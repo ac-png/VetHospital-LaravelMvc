@@ -1,4 +1,4 @@
-const Appointment = require('../models/appointments.model');
+const Appointment = require('../models/appointment.model');
 
 const readAll = (req, res) => {
 };
