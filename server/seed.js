@@ -20,13 +20,17 @@ const Medications = require('./models/medications.model');
 const seedRoles = require('./seeds/roles');
 const Role = require('./models/roles.model');
 
+const seedUsers = require('./seeds/users');
+const User = require('./models/users.model');
+
 const clearDatabase = async () => {
     await Patient.deleteMany({});
     await Appointments.deleteMany({});
     await Billing.deleteMany({});
-    await Treatments.deleteMany({});
     await Medications.deleteMany({});
+    await Treatments.deleteMany({});
     await Role.deleteMany({});
+    await User.deleteMany({});
 };
 
 const seedDatabase = async () => {
@@ -34,9 +38,10 @@ const seedDatabase = async () => {
     await seedPatients(10);
     await seedAppointments(10);
     await seedBilling(10);
-    await seedTreatments(10);
     await seedMedications(10);
+    await seedTreatments(10);
     await seedRoles(3);
+    await seedUsers(20);
 };
 
 const startSeeding = async () => {
