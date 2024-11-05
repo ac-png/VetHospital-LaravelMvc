@@ -6,16 +6,16 @@ const seedPatients = require('./seeds/patient.seed.js');
 const Patient = require('./models/patient.model.js');
 
 const seedAppointments = require('./seeds/appointment.seed.js');
-const Appointments = require('./models/appointment.model.js');
+const Appointment = require('./models/appointment.model.js');
 
-const seedBilling = require('./seeds/billing.seed.js');
+const seedBillings = require('./seeds/billing.seed.js');
 const Billing = require('./models/billing.model');
 
 const seedTreatments = require('./seeds/treatment.seed.js');
-const Treatments = require('./models/treatment.model.js');
+const Treatment = require('./models/treatment.model.js');
 
 const seedMedications = require('./seeds/medication.seed.js');
-const Medications = require('./models/medication.model.js');
+const Medication = require('./models/medication.model.js');
 
 const seedRoles = require('./seeds/role.seed.js');
 const Role = require('./models/role.model.js');
@@ -27,10 +27,10 @@ const clearDatabase = async () => {
     await Role.deleteMany({});
     await User.deleteMany({});
     await Patient.deleteMany({});
-    await Appointments.deleteMany({});
+    await Appointment.deleteMany({});
     await Billing.deleteMany({});
-    await Medications.deleteMany({});
-    await Treatments.deleteMany({});
+    await Medication.deleteMany({});
+    await Treatment.deleteMany({});
 };
 
 const seedDatabase = async () => {
@@ -39,7 +39,7 @@ const seedDatabase = async () => {
     await clearDatabase();
     await seedPatients(10);
     await seedAppointments(10);
-    await seedBilling(10);
+    await seedBillings(10);
     await seedMedications(10);
     await seedTreatments(10);
 };
