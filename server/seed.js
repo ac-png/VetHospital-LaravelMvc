@@ -17,8 +17,8 @@ const Treatments = require('./models/treatments.model');
 const seedMedications = require('./seeds/medications');
 const Medications = require('./models/medications.model');
 
-const seedRoles = require('./seeds/role');
-const Role = require('./models/role.model');
+const seedRoles = require('./seeds/roles');
+const Role = require('./models/roles.model');
 
 const clearDatabase = async () => {
     await Patient.deleteMany({});
