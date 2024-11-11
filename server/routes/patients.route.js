@@ -9,10 +9,12 @@ const {
     deleteData
 } = require('../controllers/patient.controller');
 
+const { loginRequired } = require('../controllers/user.controller');
+
 router.get('/', readAll);
-router.get('/:id', readOne);
-router.post('/', createData);
-router.put('/:id', updateData);
-router.delete('/:id', deleteData);
+router.get('/:id', loginRequired, readOne);
+router.post('/', loginRequired, createData);
+router.put('/:id', loginRequired, updateData);
+router.delete('/:id', loginRequired, deleteData);
 
 module.exports = router;
