@@ -7,6 +7,9 @@ const readAll = (req, res) => {
 };
 
 const readOne = (req, res) => {
+    Appointment.findById(req.params.id)
+        .then(appointment => res.json(appointment))
+        .catch(err => res.status(400).json('Error: ' + err));
 };
 
 const createData = (req, res) => {

@@ -7,6 +7,9 @@ const readAll = (req, res) => {
 };
 
 const readOne = (req, res) => {
+    Patient.findById(req.params.id)
+    .then(patient => res.json(patient))
+    .catch(err => res.status(400).json('Error: ' + err));
 };
 
 const createData = (req, res) => {
