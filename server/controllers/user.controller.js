@@ -5,7 +5,7 @@ const Role = require('../models/role.model');
 
 const register = async (req, res) => {
     try {
-        const { username, password, email, roleName } = req.body;
+        const { password, roleName } = req.body;
         const role = await Role.findOne({ name: roleName });
     
         if (!role) {
@@ -13,10 +13,10 @@ const register = async (req, res) => {
         }
 
         const user = new User({
-            username,
+            full_name: req.body.full_name,
             password: bcrypt.hashSync(password, 8),
-            email,
-            role: role._id,
+            email: req.body.email,
+            role: role._id
         });
     
         await user.save();
@@ -28,11 +28,9 @@ const register = async (req, res) => {
     }
 };
 
-
 const login = (req, res) => {
     User.findOne({ email: req.body.email })
         .then( user => {
-            // console.log(user);
             if(!user || !user.comparePassword(req.body.password)){
                 return res.status(401).json({
                     message: 'Authentication failed. Invalid user'
@@ -42,7 +40,7 @@ const login = (req, res) => {
             return res.status(200).json({
                 token: jwt.sign({
                     email: user.email,
-                    username: user.username,
+                    full_name: user.full_name,
                     _id: user._id
                 }, process.env.JWT_SECRET)
             });

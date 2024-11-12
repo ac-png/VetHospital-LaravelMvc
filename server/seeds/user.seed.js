@@ -13,13 +13,18 @@ const seedUsers = async (num) => {
     const users = [];
     for (let i = 0; i < num; i++) {
         const role = roles[Math.floor(Math.random() * roles.length)];
+        const fullName = faker.person.fullName();
+        const [firstName, lastName] = fullName.split(' ');
+        const email = `${firstName.toLowerCase()}.${lastName.toLowerCase()}@example.com`;
+
         users.push({
-            username: faker.internet.username(),
+            full_name: fullName,
             password: faker.internet.password(),
-            email: faker.internet.email(),
+            email: email,
             role: role._id
         });
     }
+    
 
     try {
         await User.insertMany(users);
