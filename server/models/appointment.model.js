@@ -6,8 +6,9 @@ const appointmentSchema = new Schema({
         ref: 'Patient',
         required: [true, 'Patient is required']
     },
-    vet: {
-        type: String,
+    vet_id: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
         required: [true, 'Vet field is required']
     },
     appointment_date: {

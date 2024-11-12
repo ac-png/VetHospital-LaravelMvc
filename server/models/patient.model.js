@@ -17,8 +17,9 @@ const patientSchema = new Schema({
         type: Number,
         required: [true, 'Age is required']
     },
-    owner: {
-        type: String,
+    owner_id: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
         required: [true, 'Owner field is required']
     },
     image: {
