@@ -1,4 +1,5 @@
 const express = require('express');
+const jwt = require('jsonwebtoken');
 const app = express();
 const port = 5001;
 
@@ -8,7 +9,6 @@ require('./config/db.js')();
 app.use(express.json());
 app.use(express.static(__dirname + '/views/'));
 
-//// AUTHORIZATION /////////////
 app.use((req, res, next) => {
     let authHeader = req.headers?.authorization?.split(' ');
 
@@ -24,7 +24,6 @@ app.use((req, res, next) => {
         next();
     }
 });
-//////////////////////////////
 
 app.use('/api/users', require('./routes/users.route.js'))
 app.use('/api/roles', require('./routes/roles.route.js'))
