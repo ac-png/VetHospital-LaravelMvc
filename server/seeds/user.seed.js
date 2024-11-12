@@ -2,33 +2,32 @@ const { faker } = require('@faker-js/faker');
 const User = require('../models/user.model');
 const Role = require('../models/role.model');
 
-const seedUsers = async (num) => {
-    const roles = await Role.find();
+const seedUsers = async () => {
+    const roles = await Role.find({ name: { $in: ['Admin', 'Owner', 'Vet'] } });
     
-    if (roles.length === 0) {
-        console.error('No roles found to associate with billings.');
+    if (roles.length !== 3) {
+        console.error('Error: Could not find all the required roles.');
         return;
     }
 
-    const users = [];
-    for (let i = 0; i < num; i++) {
-        const role = roles[Math.floor(Math.random() * roles.length)];
+    const users = roles.map((role) => {
         const fullName = faker.person.fullName();
-        const [firstName, lastName] = fullName.split(' ');
+        const nameParts = fullName.split(' ').filter(Boolean);
+        const firstName = nameParts[0];
+        const lastName = nameParts[nameParts.length - 1]
         const email = `${firstName.toLowerCase()}.${lastName.toLowerCase()}@example.com`;
 
-        users.push({
+        return {
             full_name: fullName,
             password: faker.internet.password(),
             email: email,
             role: role._id
-        });
-    }
-    
+        };
+    });
 
     try {
         await User.insertMany(users);
-        console.log(`${num} users seeded successfully!`);
+        console.log(`3 users seeded successfully, one for each role!`);
     } catch (error) {
         console.error('Error seeding users:', error);
     }

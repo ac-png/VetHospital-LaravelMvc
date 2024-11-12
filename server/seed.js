@@ -35,8 +35,8 @@ const clearDatabase = async () => {
 
 const seedDatabase = async () => {
     await clearDatabase();
-    await seedRoles(3);
-    await seedUsers(5);
+    await seedRoles();
+    await seedUsers();
     await seedPatients(10);
     await seedAppointments(10);
     await seedBillings(10);
