@@ -1,4 +1,3 @@
-// Import faker for generating random data and the necessary models for User and Role
 const { faker } = require('@faker-js/faker');
 const User = require('../models/user.model');
 const Role = require('../models/role.model');
@@ -18,9 +17,16 @@ const seedUsers = async () => {
     const users = roles.map((role) => {
         const fullName = faker.person.fullName();  // Generate a random full name
         const nameParts = fullName.split(' ').filter(Boolean);  // Split the name into first and last names
-        const firstName = nameParts[0];
-        const lastName = nameParts[nameParts.length - 1];
+        const firstName = nameParts[0] || 'First';  // Default to 'First' if no first name
+        const lastName = nameParts[nameParts.length - 1] || 'Last';  // Default to 'Last' if no last name
         const email = `${firstName.toLowerCase()}.${lastName.toLowerCase()}@example.com`;  // Generate an email
+
+        // Validate email format
+        const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
+        if (!emailRegex.test(email)) {
+            console.error(`Generated invalid email: ${email}`);
+            return null;  // Skip this user if the email is invalid
+        }
 
         return {
             full_name: fullName,
@@ -28,14 +34,18 @@ const seedUsers = async () => {
             email: email,
             role: role._id  // Associate the role with the user
         };
-    });
+    }).filter(user => user !== null);  // Filter out any invalid users
 
     // Insert the generated users into the database
-    try {
-        await User.insertMany(users);
-        console.log(`3 users seeded successfully, one for each role!`);  // Log success message
-    } catch (error) {
-        console.error('Error seeding users:', error);  // Log any errors during insertion
+    if (users.length > 0) {
+        try {
+            await User.insertMany(users);
+            console.log(`Users seeded successfully, one for each role!`);
+        } catch (error) {
+            console.error('Error seeding users:', error);  // Log any errors during insertion
+        }
+    } else {
+        console.error('No valid users to insert.');
     }
 };
 
