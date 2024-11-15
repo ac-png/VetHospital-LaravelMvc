@@ -40,8 +40,46 @@ const createData = (req, res) => {
 };
 
 const updateData = (req, res) => {
+    // Extracting the id from the request parameters and the body of the request
+    let id = req.params.id;
+    let body = req.body;
 
+    // Use the 'findByIdAndUpdate' method to find and update the Patient document by its id
+    Patient.findByIdAndUpdate(id, body, {
+        new: true, // Return the modified document rather than the original
+        runValidators: true, // Ensure that validation rules are applied
+        useFindAndModify: true // Use the updated find and modify method (legacy option)
+    })
+    .then(data => {
+        // If the update is successful, return a success response with the updated data
+        return res.status(201).json(data);
+    })
+    .catch(err => {
+        // Handle errors during the update process
+
+        // Check if the error is a CastError (i.e., invalid id format)
+        if(err.name === 'CastError'){
+
+            // If the error is related to an invalid ObjectId, return a 404 (Not Found) response
+            if(err.kind === 'ObjectId'){
+                return res.status(404).json({
+                    message: `Patient with id: ${id} not found`
+                });
+            }
+            else {
+                // If the error is another type of validation issue, return a 422 (Unprocessable Entity) response
+                return res.status(422).json({
+                    message: err.message
+                });
+            }
+
+        }
+
+        // For other types of errors, return a 500 (Internal Server Error) response
+        return res.status(500).json(err);
+    });
 };
+
 
 // Function to handle deleting a Patient by its ID
 const deleteData = (req, res) => {
