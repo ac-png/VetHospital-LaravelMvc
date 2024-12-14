@@ -4,7 +4,7 @@ const PatientVeterinarian = require('../models/patientVeterinarian.model');
 const Hospital = require('../models/hospital.model');
 
 exports.createPatient = async (req, res) => {
-    const { title, description, completed, hospital: hospitalName, veterinarianNames } = req.body;
+    const { name, type, breed, age, hospital: hospitalName, veterinarianNames } = req.body;
 
     try {
         const hospital = await Hospital.findOne({ name: hospitalName });
@@ -17,9 +17,10 @@ exports.createPatient = async (req, res) => {
         }
 
         const newPatient = new Patient({
-            title,
-            description,
-            completed,
+            name,
+            type,
+            breed,
+            age,
             hospital: hospital._id,
             user: req.user._id,
         });
@@ -50,7 +51,9 @@ exports.getAllPatients = async (req, res) => {
     try {
         const patients = await Patient.find({ user: req.user._id })
             .populate('user', 'username email')
-            .populate('patient', 'name');
+            .populate('hospital', 'name')
+            .exec();
+
         res.json(patients);
     } catch (err) {
         res.status(500).json({ message: 'Error fetching patients', error: err.message });
@@ -61,7 +64,7 @@ exports.getPatient = async (req, res) => {
     try {
         const patient = await Patient.findById(req.params.id)
             .populate('user', 'username email')
-            .populate('patient', 'name');
+            .populate('hospital', 'name');
         if (!patient) {
             return res.status(404).json({ message: 'Patient not found' });
         }
@@ -74,6 +77,7 @@ exports.getPatient = async (req, res) => {
         res.status(500).json({ message: 'Error fetching patient', error: err.message });
     }
 };
+
 
 exports.deletePatient = async (req, res) => {
     const id = req.params.id;

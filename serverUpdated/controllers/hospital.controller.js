@@ -2,7 +2,7 @@ const Hospital = require('../models/hospital.model');
 const Patient = require('../models/patient.model');
 
 exports.createHospital = async (req, res) => {
-    const { name } = req.body;
+    const { name, address } = req.body;
 
     if (req.user.role.name !== 'admin') {
         return res.status(403).json({
@@ -13,6 +13,7 @@ exports.createHospital = async (req, res) => {
     try {
         const newHospital = new Hospital({
             name,
+            address,
             user: req.user._id,
         });
 
