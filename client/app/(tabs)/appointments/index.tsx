@@ -1,27 +1,27 @@
-import { View, Text, StyleSheet } from 'react-native';
+import { View } from 'react-native';
+import { Text } from 'react-native-paper';
+import LoginForm from '@/components/LoginForm';
+import { useSession } from '@/contexts/AuthContext';
 
-export default function Appointments() {
+export default function Tab() {
+    const { session } = useSession();
+    
     return (
-        <View style={styles.container}>
-            <View style={styles.content}>
-                <Text style={styles.title}>Appointments</Text>
+        <View style={{ flex: 1 }}>            
+            <View style={{ alignItems: 'center', paddingHorizontal: 20 }}>
+                <Text variant="headlineSmall" style={{ margin: 20 }}>
+                    Appointments
+                </Text>
+                {session ? (
+                    <Text>
+                        Welcome to the appointments page!
+                    </Text>
+                ) : (
+                    <Text variant="bodyLarge" style={{ marginTop: 20 }}>
+                        Please log in to access your appointments.
+                    </Text>
+                )}
             </View>
         </View>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1
-    },
-    title: {
-        fontSize: 32,
-        fontWeight: 'bold',
-        fontFamily: 'Arial',
-    },
-    content: {
-        flex: 1,
-        alignItems: 'center',
-        paddingHorizontal: 20,
-    }
-});

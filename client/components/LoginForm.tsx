@@ -1,5 +1,6 @@
-import { Text, TextInput, StyleSheet, Button } from 'react-native';
-import { useState } from 'react';
+import React, { useState } from 'react';
+import { View, Text } from 'react-native';
+import { TextInput, Button, Snackbar } from 'react-native-paper';
 import axios from 'axios';
 import { useSession } from '@/contexts/AuthContext';
 
@@ -10,15 +11,18 @@ export default function LoginForm() {
     });
     const [error, setError] = useState("");
     const { signIn } = useSession();
-    const handleChange = (e: any) => {
+    const [visible, setVisible] = useState(false);
+
+    const handleChange = (e) => {
         setForm(prevState => ({
             ...prevState,
             [e.target.id]: e.target.value
         }));
     }
+
     const handlePress = () => {
         console.log("Clicked");
-    
+
         axios.post('http://localhost:5001/api/auth/login', {
             email: form.email,
             password: form.password
@@ -37,39 +41,46 @@ export default function LoginForm() {
             } else {
                 setError('An unknown error occurred');
             }
+
+            setVisible(true);
         });
     };
     
     return (
-        <>
+        <View style={{ padding: 20 }}>
             <TextInput
-                style={styles.input}
-                placeholder='Email'
+                label="Email"
                 value={form.email}
-                onChange={handleChange}
-                id='email'
+                onChangeText={(text) => setForm({ ...form, email: text })}
+                style={{ marginBottom: 10 }}
+                mode="outlined"
+                keyboardType="email-address"
             />
             <TextInput
-                style={styles.input}
-                placeholder='Password'
+                label="Password"
                 value={form.password}
-                onChange={handleChange}
-                id='password'
+                onChangeText={(text) => setForm({ ...form, password: text })}
+                style={{ marginBottom: 20 }}
+                secureTextEntry
+                mode="outlined"
             />
-            <Text>{error}</Text>
             <Button 
+                mode="contained"
                 onPress={handlePress}
-                title="Submit"
-                color="#841584"
-            />
-        </>
-    );   
+                style={{ marginBottom: 20 }}
+            >
+                Submit
+            </Button>
+            {error && (
+                <Text style={{ color: 'red', marginBottom: 10 }}>{error}</Text>
+            )}
+            <Snackbar
+                visible={visible}
+                onDismiss={() => setVisible(false)}
+                duration={3000}
+            >
+                {error}
+            </Snackbar>
+        </View>
+    );
 }
-const styles = StyleSheet.create({
-    input: {
-        height: 40,
-        margin: 10,
-        borderWidth: 1,
-        padding: 10
-    }
-});
