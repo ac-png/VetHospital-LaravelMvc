@@ -3,10 +3,8 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const cors = require('cors');
 const authRoutes = require('./routes/auth.routes');
-const patientRoutes = require('./routes/patient.routes');
-const hospitalRoutes = require('./routes/hospital.routes');
-const veterinarianRoutes = require('./routes/veterinarian.routes');
 const appointmentRoutes = require('./routes/appointment.routes');
+const entityRoutes = require('./routes/entity.routes');
 
 dotenv.config();
 
@@ -22,10 +20,8 @@ mongoose.connect(process.env.MONGODB_URI, {
     .catch((err) => console.log(err));
 
 app.use('/api/auth', authRoutes);
-app.use('/api/patients', patientRoutes);
-app.use('/api/hospitals', hospitalRoutes);
-app.use('/api/veterinarians', veterinarianRoutes);
 app.use('/api/appointments', appointmentRoutes);
+app.use('/api/entities', entityRoutes);
 
 const port = process.env.PORT || 5001;
 app.listen(port, () => {
