@@ -2,8 +2,9 @@ const Role = require('../models/role.model');
 
 const seedRoles = async () => {
     const roles = [
-        { name: 'admin' },
-        { name: 'user' },
+        { name: 'owner' },
+        { name: 'veterinarian' },
+        { name: 'admin' }
     ];
 
     try {

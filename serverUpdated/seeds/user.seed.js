@@ -3,8 +3,9 @@ const Role = require('../models/role.model');
 
 const seedUsers = async () => {
     const users = [
-        { username: 'admin', password: 'password123', email: 'admin@example.com', role: 'admin' },
-        { username: 'user1', password: 'password123', email: 'user@example.com', role: 'user' },
+        { username: 'owner', password: 'password123', email: 'owner@example.com', role: 'owner' },
+        { username: 'vet', password: 'password123', email: 'vet@example.com', role: 'veterinarian' },
+        { username: 'admin', password: 'password123', email: 'admin@example.com', role: 'admin' }
     ];
 
     try {
