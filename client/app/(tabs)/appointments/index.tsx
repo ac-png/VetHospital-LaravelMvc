@@ -1,6 +1,5 @@
 import { View } from 'react-native';
 import { Text } from 'react-native-paper';
-import LoginForm from '@/components/LoginForm';
 import { useSession } from '@/contexts/AuthContext';
 
 export default function Tab() {
