@@ -7,7 +7,7 @@ const {
     getHospitalById,
     getAllVeterinarians,
     getVeterinarianById
-} = require('../controllers/entityController');
+} = require('../controllers/entity.controller');
 const router = express.Router();
 
 router.get('/patients', authenticate, getAllPatients);
