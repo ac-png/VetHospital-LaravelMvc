@@ -5,7 +5,6 @@ const seedHospitals = require('./seeds/hospital.seed');
 const seedVeterinarians = require('./seeds/veterinarian.seed');
 const seedPatients = require('./seeds/patient.seed');
 const seedPatientVeterinarians = require('./seeds/patientVeterinarian.seed');
-const seedAppointments = require('./seeds/appointment.seed');
 const connectDB = require('./config/db');
 
 const clearDatabase = async () => {
@@ -28,7 +27,6 @@ const seedDatabase = async () => {
         await seedVeterinarians();
         await seedPatients();
         await seedPatientVeterinarians();
-        await seedAppointments();
 
         console.log("Seeding completed.");
     } catch (err) {
