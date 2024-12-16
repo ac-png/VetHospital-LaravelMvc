@@ -1,20 +1,26 @@
 const express = require('express');
 const { authenticate, authorize } = require('../middleware/auth.middleware');
-const {
-    createHospital,
-    getAllCategories,
-    getHospital,
-    deleteHospital,
-    updateHospital
-} = require('../controllers/hospital.controller');
 
 const router = express.Router();
 
-router.post('/', authenticate, authorize(['admin']), createHospital);
-router.delete('/:id', authenticate, authorize(['admin']), deleteHospital);
-router.put('/:id', authenticate, authorize(['admin']), updateHospital);
+router.post('/', authenticate, authorize(['admin']), (req, res) => {
+    res.status(201).json({ message: 'Hospital created' });
+});
 
-router.get('/', authenticate, getAllCategories);
-router.get('/:id', authenticate, getHospital);
+router.delete('/:id', authenticate, authorize(['admin']), (req, res) => {
+    res.status(200).json({ message: `Hospital with ID ${req.params.id} deleted` });
+});
+
+router.put('/:id', authenticate, authorize(['admin']), (req, res) => {
+    res.status(200).json({ message: `Hospital with ID ${req.params.id} updated` });
+});
+
+router.get('/', authenticate, (req, res) => {
+    res.status(200).json({ message: 'All hospitals fetched' });
+});
+
+router.get('/:id', authenticate, (req, res) => {
+    res.status(200).json({ message: `Hospital with ID ${req.params.id} fetched` });
+});
 
 module.exports = router;

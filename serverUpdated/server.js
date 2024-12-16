@@ -6,6 +6,7 @@ const authRoutes = require('./routes/auth.routes');
 const patientRoutes = require('./routes/patient.routes');
 const hospitalRoutes = require('./routes/hospital.routes');
 const veterinarianRoutes = require('./routes/veterinarian.routes');
+const appointmentRoutes = require('./routes/appointment.routes');
 
 dotenv.config();
 
@@ -24,6 +25,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/patients', patientRoutes);
 app.use('/api/hospitals', hospitalRoutes);
 app.use('/api/veterinarians', veterinarianRoutes);
+app.use('/api/appointments', appointmentRoutes);
 
 const port = process.env.PORT || 5001;
 app.listen(port, () => {

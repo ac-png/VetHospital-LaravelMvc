@@ -1,45 +1,41 @@
 const mongoose = require('mongoose');
-require('dotenv').config();
-require('./config/db.js')();
-
-const seedPatients = require('./seeds/patient.seed.js');
-const Patient = require('./models/patient.model.js');
-
-const seedCategories = require('./seeds/hospital.seed.js');
-const Hospital = require('./models/hospital.model.js');
-
-const seedVeterinarians = require('./seeds/veterinarian.seed.js');
-const Veterinarian = require('./models/veterinarian.model.js');
-
-const seedRoles = require('./seeds/role.seed.js');
-const Role = require('./models/role.model.js');
-
-const seedUsers = require('./seeds/user.seed.js');
-const User = require('./models/user.model.js');
+const seedRoles = require('./seeds/role.seed');
+const seedUsers = require('./seeds/user.seed');
+const seedHospitals = require('./seeds/hospital.seed');
+const seedVeterinarians = require('./seeds/veterinarian.seed');
+const seedPatients = require('./seeds/patient.seed');
+const seedPatientVeterinarians = require('./seeds/patientVeterinarian.seed');
+const seedAppointments = require('./seeds/appointment.seed');
+const connectDB = require('./config/db');
 
 const clearDatabase = async () => {
-    await Role.deleteMany({});
-    await User.deleteMany({});
-    await Patient.deleteMany({});
-    await Hospital.deleteMany({});
-    await Veterinarian.deleteMany({});
+    if (mongoose.connection.readyState === 1) {
+        await mongoose.connection.db.dropDatabase();
+        console.log("Database cleared.");
+    } else {
+        console.log("Error: Database is not connected.");
+    }
 };
 
 const seedDatabase = async () => {
-    await clearDatabase();
-    await seedRoles();
-    await seedUsers();
-    await seedCategories(5);
-    await seedVeterinarians(10);
-    await seedPatients(50);
+    try {
+        await connectDB();
+        await clearDatabase();
+
+        await seedRoles(); 
+        await seedUsers();
+        await seedHospitals();
+        await seedVeterinarians();
+        await seedPatients();
+        await seedPatientVeterinarians();
+        await seedAppointments();
+
+        console.log("Seeding completed.");
+    } catch (err) {
+        console.error('Seeding error:', err);
+    } finally {
+        mongoose.connection.close();
+    }
 };
 
-const startSeeding = async () => {
-    await seedDatabase();
-    console.log('Seeding completed.');
-};
-
-startSeeding().catch((err) => {
-    console.error('Seeding error:', err);
-    mongoose.disconnect();
-});
+seedDatabase();

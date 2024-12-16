@@ -1,15 +1,26 @@
 const express = require('express');
 const { authenticate, authorize } = require('../middleware/auth.middleware');
-const {
-    createVeterinarian,
-    deleteVeterinarian,
-    updateVeterinarian
-} = require('../controllers/veterinarian.controller');
 
 const router = express.Router();
 
-router.post('/', authenticate, authorize(['admin']), createVeterinarian);
-router.delete('/:id', authenticate, authorize(['admin']), deleteVeterinarian);
-router.put('/:id', authenticate, authorize(['admin']), updateVeterinarian);
+router.post('/', authenticate, authorize(['admin']), (req, res) => {
+    res.status(201).json({ message: 'Veterinarian created' });
+});
+
+router.delete('/:id', authenticate, authorize(['admin']), (req, res) => {
+    res.status(200).json({ message: `Veterinarian with ID ${req.params.id} deleted` });
+});
+
+router.put('/:id', authenticate, authorize(['admin']), (req, res) => {
+    res.status(200).json({ message: `Veterinarian with ID ${req.params.id} updated` });
+});
+
+router.get('/', authenticate, (req, res) => {
+    res.status(200).json({ message: 'All veterinarians fetched' });
+});
+
+router.get('/:id', authenticate, (req, res) => {
+    res.status(200).json({ message: `Veterinarian with ID ${req.params.id} fetched` });
+});
 
 module.exports = router;
