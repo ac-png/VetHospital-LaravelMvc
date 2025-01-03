@@ -25,8 +25,6 @@ export default function AppointmentsPage() {
         });
     }, [session]);
 
-    console.log(session)
-
     if (loading) return <Text>Loading appointments...</Text>;
 
     if (error) return <Text style={styles.errorText}>Failed to load appointments: {error}</Text>;
