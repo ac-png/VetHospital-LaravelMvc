@@ -1,9 +1,10 @@
-import { View, Text, StyleSheet, ActivityIndicator, Button, Alert } from 'react-native';
+import { View, Text, StyleSheet, ActivityIndicator, Alert } from 'react-native';
 import { useSession } from '@/contexts/AuthContext';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useLocalSearchParams } from 'expo-router';
 import { AppointmentType, PatientType, VeterinarianType, HospitalType } from '@/types';
+import { Button } from 'react-native-paper';
 
 export default function Tab() {
     const [appointment, setAppointment] = useState<AppointmentType | null>(null);
@@ -82,8 +83,8 @@ export default function Tab() {
             }
         };
 
-        fetchUserRole(); // Fetch user role
-        fetchAppointment(); // Fetch appointment details
+        fetchUserRole();
+        fetchAppointment();
     }, [id, session]);
 
     const handleDelete = async () => {
@@ -114,7 +115,6 @@ export default function Tab() {
                     },
                 });
                 Alert.alert('Success', 'Appointment has been deleted.');
-                // Optionally, navigate back or update the UI here
             }
         } catch (err) {
             Alert.alert('Error', 'Failed to delete the appointment.');
@@ -173,10 +173,17 @@ export default function Tab() {
                 <Text style={styles.value}>{appointment.hospital.name || 'N/A'}</Text>
             </View>
 
-            {/* Show delete button if user is a veterinarian or admin */}
             {(role === 'veterinarian' || role === 'admin') && (
                 <View style={styles.deleteButton}>
-                    <Button title="Delete Appointment" color="red" onPress={handleDelete} />
+                    <Button
+                        mode="contained"
+                        color="red"
+                        style={styles.deleteButtonStyle}
+                        onPress={handleDelete}
+                        icon="delete"
+                    >
+                        Delete Appointment
+                    </Button>
                 </View>
             )}
         </View>
@@ -227,5 +234,9 @@ const styles = StyleSheet.create({
     deleteButton: {
         marginTop: 20,
         width: '100%',
+    },
+    deleteButtonStyle: {
+        width: '100%',
+        borderRadius: 8,
     },
 });
