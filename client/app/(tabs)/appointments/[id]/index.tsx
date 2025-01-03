@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, ActivityIndicator, Button, Alert } from 'react-native';
 import { useSession } from '@/contexts/AuthContext';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -12,11 +12,25 @@ export default function Tab() {
     const [hospital, setHospital] = useState<HospitalType | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const [role, setRole] = useState<string | null>(null);
 
     const { session } = useSession();
     const { id } = useLocalSearchParams();
 
     useEffect(() => {
+        const fetchUserRole = async () => {
+            try {
+                const response = await axios.get(`http://localhost:5001/api/auth/profile`, {
+                    headers: {
+                        Authorization: `Bearer ${session}`,
+                    },
+                });
+                setRole(response.data.role.name);
+            } catch (err) {
+                console.error('Error fetching user role', err);
+            }
+        };
+
         const fetchAppointment = async () => {
             try {
                 const response = await axios.get(`http://localhost:5001/api/appointments/${id}`, {
@@ -68,8 +82,45 @@ export default function Tab() {
             }
         };
 
-        fetchAppointment();
+        fetchUserRole(); // Fetch user role
+        fetchAppointment(); // Fetch appointment details
     }, [id, session]);
+
+    const handleDelete = async () => {
+        try {
+            const confirmation = await new Promise<boolean>((resolve) => {
+                Alert.alert(
+                    'Delete Appointment',
+                    'Are you sure you want to delete this appointment?',
+                    [
+                        {
+                            text: 'Cancel',
+                            onPress: () => resolve(false),
+                            style: 'cancel',
+                        },
+                        {
+                            text: 'Delete',
+                            onPress: () => resolve(true),
+                            style: 'destructive',
+                        },
+                    ]
+                );
+            });
+
+            if (confirmation) {
+                await axios.delete(`http://localhost:5001/api/appointments/${id}`, {
+                    headers: {
+                        Authorization: `Bearer ${session}`,
+                    },
+                });
+                Alert.alert('Success', 'Appointment has been deleted.');
+                // Optionally, navigate back or update the UI here
+            }
+        } catch (err) {
+            Alert.alert('Error', 'Failed to delete the appointment.');
+            console.error(err);
+        }
+    };
 
     if (loading) {
         return (
@@ -121,6 +172,13 @@ export default function Tab() {
                 <Text style={styles.label}>Hospital:</Text>
                 <Text style={styles.value}>{appointment.hospital.name || 'N/A'}</Text>
             </View>
+
+            {/* Show delete button if user is a veterinarian or admin */}
+            {(role === 'veterinarian' || role === 'admin') && (
+                <View style={styles.deleteButton}>
+                    <Button title="Delete Appointment" color="red" onPress={handleDelete} />
+                </View>
+            )}
         </View>
     );
 }
@@ -165,5 +223,9 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: 'red',
         fontWeight: 'bold',
+    },
+    deleteButton: {
+        marginTop: 20,
+        width: '100%',
     },
 });

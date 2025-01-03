@@ -26,7 +26,7 @@ export default function SettingsPage() {
     }, [session]);
 
     if (!session) {
-        return <LoginForm />; // Render the LoginForm if not logged in
+        return <LoginForm />;
     }
 
     if (loading) {
