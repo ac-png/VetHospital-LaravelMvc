@@ -38,7 +38,14 @@ export default function TabLayout() {
                     title: 'Create Appointment',
                     href: null
                 }}
-            />  
+            />
+            <Tabs.Screen 
+                name='appointments/[id]/edit'
+                options={{
+                    title: 'Edit Appointment',
+                    href: null
+                }}
+            />
         </Tabs>
     );
 }
