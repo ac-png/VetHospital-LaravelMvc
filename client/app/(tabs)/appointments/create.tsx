@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, Alert } from 'react-native';
-import { Button, Text, TextInput } from 'react-native-paper';
+import { Button, Text, TextInput, HelperText } from 'react-native-paper';
 import axios from 'axios';
 import { useSession } from '@/contexts/AuthContext';
+import { jwtDecode } from 'jwt-decode';
+
+const BASE_URL = 'http://localhost:5001/api';
 
 export default function CreateAppointment() {
     const [date, setDate] = useState('');
@@ -10,23 +13,36 @@ export default function CreateAppointment() {
     const [notes, setNotes] = useState('');
     const [patientId, setPatientId] = useState('');
     const [veterinarianId, setVeterinarianId] = useState('');
+    const [hospitalId, setHospitalId] = useState('');
     const { session } = useSession();
 
+    const isDateValid = (date) => /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}$/.test(date);
+
     const handleSubmit = async () => {
-        if (!date || !reason || !patientId || !veterinarianId) {
+        if (!date || !reason || !patientId || !veterinarianId || !hospitalId) {
             Alert.alert('Error', 'Please fill in all required fields.');
             return;
         }
 
+        if (!isDateValid(date)) {
+            Alert.alert('Error', 'Date format is invalid. Use YYYY-MM-DDTHH:mm:ss.');
+            return;
+        }
+
         try {
+            const decodedToken = jwtDecode(session);
+            const userId = decodedToken._id;
+
             await axios.post(
-                'http://localhost:5001/api/appointments',
+                `${BASE_URL}/appointments`,
                 {
                     date,
                     reason,
                     notes,
-                    patientId,
-                    veterinarianId,
+                    patient: patientId,
+                    veterinarian: veterinarianId,
+                    hospital: hospitalId,
+                    user: userId,
                 },
                 {
                     headers: {
@@ -36,9 +52,16 @@ export default function CreateAppointment() {
             );
 
             Alert.alert('Success', 'Appointment created successfully!');
+            setDate('');
+            setReason('');
+            setNotes('');
+            setPatientId('');
+            setVeterinarianId('');
+            setHospitalId('');
         } catch (err) {
             console.error(err);
-            Alert.alert('Error', 'Failed to create the appointment.');
+            const message = err.response?.data?.message || 'Failed to create the appointment.';
+            Alert.alert('Error', message);
         }
     };
 
@@ -52,6 +75,9 @@ export default function CreateAppointment() {
                 style={styles.input}
                 mode="outlined"
             />
+            <HelperText type="error" visible={!isDateValid(date) && date.length > 0}>
+                Please use the correct date format: YYYY-MM-DDTHH:mm:ss
+            </HelperText>
             <TextInput
                 label="Reason"
                 value={reason}
@@ -81,6 +107,13 @@ export default function CreateAppointment() {
                 style={styles.input}
                 mode="outlined"
             />
+            <TextInput
+                label="Hospital ID"
+                value={hospitalId}
+                onChangeText={setHospitalId}
+                style={styles.input}
+                mode="outlined"
+            />
             <Button
                 mode="contained"
                 onPress={handleSubmit}
@@ -107,7 +140,7 @@ const styles = StyleSheet.create({
         color: '#333',
     },
     input: {
-        marginBottom: 15,
+        marginBottom: 10,
     },
     submitButton: {
         marginTop: 20,
