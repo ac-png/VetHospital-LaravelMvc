@@ -29,9 +29,9 @@ export default function AppointmentsPage() {
                     Authorization: `Bearer ${session}`,
                 },
             }, (data) => {
-                console.log("API Response:", data);
-                const userAppointments = data.filter(appointment => appointment.user._id === userId);
-                console.log("Filtered Appointments:", userAppointments);
+                const userAppointments = data.filter(appointment => appointment.user._id == userId);
+                console.log(data);
+                console.log(session);
                 setAppointments(userAppointments);
             });
         } catch (error) {
