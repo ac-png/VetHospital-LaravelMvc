@@ -4,12 +4,15 @@ import { useSession } from '@/contexts/AuthContext';
 import useAPI from '@/hooks/useAPI';
 import { Link } from 'expo-router';
 import { jwtDecode } from 'jwt-decode';
-import { Card, Title, Paragraph } from 'react-native-paper';
+import { Card, Title, Paragraph, Button } from 'react-native-paper';
+import { useNavigation } from '@react-navigation/native';
 
 export default function AppointmentsPage() {
     const { session } = useSession();
     const [appointments, setAppointments] = useState([]);
     const { getRequest, loading, error } = useAPI();
+    const [role, setRole] = useState<string | null>(null);
+    const navigation = useNavigation();
 
     useEffect(() => {
         if (!session) {
@@ -19,6 +22,7 @@ export default function AppointmentsPage() {
         try {
             const decodedToken = jwtDecode(session);
             const userId = decodedToken._id;
+            setRole(decodedToken.role.name);
     
             getRequest('http://localhost:5001/api/appointments', {
                 headers: {
@@ -34,7 +38,6 @@ export default function AppointmentsPage() {
             console.error("Error decoding token", error);
         }
     }, [session]);
-    
 
     if (loading) return <Text>Loading appointments...</Text>;
 
@@ -43,6 +46,20 @@ export default function AppointmentsPage() {
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Appointments</Text>
+
+            {(role === 'veterinarian' || role === 'admin') && (
+                <View style={styles.createButtonContainer}>
+                    <Button
+                        mode="contained"
+                        color="#d32f2f"
+                        style={styles.createButton}
+                        onPress={() => navigation.navigate('appointments/create')}
+                        icon="calendar-plus"
+                    >
+                        Create Appointment
+                    </Button>
+                </View>
+            )}
 
             {appointments.length === 0 ? (
                 <Text style={styles.noAppointmentsText}>You have no upcoming appointments.</Text>
@@ -98,10 +115,14 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         marginBottom: 20,
     },
-    createButton: {
+    createButtonContainer: {
         marginBottom: 20,
         marginTop: 10,
-        backgroundColor: '#01ff00',
+        alignItems: 'center',
+    },
+    createButton: {
+        width: '80%',
+        borderRadius: 8,
     },
     progressBar: {
         marginTop: 20,
