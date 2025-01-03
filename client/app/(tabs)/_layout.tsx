@@ -24,7 +24,14 @@ export default function TabLayout() {
                     title: 'Settings',
                     tabBarIcon: ({ color }) => <FontAwesome size={28} name="cog" color={color} />,
                 }}
-            />    
+            />
+            <Tabs.Screen 
+                name='appointments/[id]/index'
+                options={{
+                    title: 'Appointment Details',
+                    href: null
+                }}
+            />  
         </Tabs>
     );
 }
