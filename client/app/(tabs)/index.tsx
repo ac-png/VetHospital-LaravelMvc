@@ -1,10 +1,11 @@
 import { View } from 'react-native';
 import { Text, Button } from 'react-native-paper';
-import LoginForm from '@/components/LoginForm';
 import { useSession } from '@/contexts/AuthContext';
+import { useNavigation } from '@react-navigation/native';
 
 export default function Tab() {
-    const { session, signOut } = useSession();
+    const { session } = useSession();
+    const navigation = useNavigation();
     
     return (
         <View style={{ flex: 1 }}>            
@@ -14,14 +15,18 @@ export default function Tab() {
                 </Text>
                 {session ? (
                     <Button 
-                        mode="contained"
-                        onPress={signOut}
-                        style={{ marginTop: 10 }}
+                        mode="text" 
+                        onPress={() => navigation.navigate('appointments/index')}
                     >
-                        Logout
+                        Go to Appointments to View Your Appointments
                     </Button>
                 ) : (
-                    <LoginForm />
+                    <Button 
+                        mode="text" 
+                        onPress={() => navigation.navigate('settings')}
+                    >
+                        Go to Settings to Sign In
+                    </Button>
                 )}
             </View>
         </View>
