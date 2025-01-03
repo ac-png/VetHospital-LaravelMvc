@@ -5,8 +5,10 @@ import axios from 'axios';
 import { useLocalSearchParams } from 'expo-router';
 import { AppointmentType, PatientType, VeterinarianType, HospitalType } from '@/types';
 import { Button } from 'react-native-paper';
+import { useNavigation } from '@react-navigation/native';
 
 export default function Tab() {
+    const navigation = useNavigation();
     const [appointment, setAppointment] = useState<AppointmentType | null>(null);
     const [patient, setPatient] = useState<PatientType | null>(null);
     const [veterinarian, setVeterinarian] = useState<VeterinarianType | null>(null);
@@ -87,39 +89,12 @@ export default function Tab() {
         fetchAppointment();
     }, [id, session]);
 
-    const handleDelete = async () => {
-        try {
-            const confirmation = await new Promise<boolean>((resolve) => {
-                Alert.alert(
-                    'Delete Appointment',
-                    'Are you sure you want to delete this appointment?',
-                    [
-                        {
-                            text: 'Cancel',
-                            onPress: () => resolve(false),
-                            style: 'cancel',
-                        },
-                        {
-                            text: 'Delete',
-                            onPress: () => resolve(true),
-                            style: 'destructive',
-                        },
-                    ]
-                );
-            });
+    const handleEdit = () => {
+        console.log('Edit button clicked');
+    };
 
-            if (confirmation) {
-                await axios.delete(`http://localhost:5001/api/appointments/${id}`, {
-                    headers: {
-                        Authorization: `Bearer ${session}`,
-                    },
-                });
-                Alert.alert('Success', 'Appointment has been deleted.');
-            }
-        } catch (err) {
-            Alert.alert('Error', 'Failed to delete the appointment.');
-            console.error(err);
-        }
+    const handleDelete = () => {
+        console.log('Delete button clicked');
     };
 
     if (loading) {
@@ -173,16 +148,13 @@ export default function Tab() {
                 <Text style={styles.value}>{appointment.hospital.name || 'N/A'}</Text>
             </View>
 
-            {(role === 'veterinarian' || role === 'admin') && (
-                <View style={styles.deleteButton}>
-                    <Button
-                        mode="contained"
-                        color="red"
-                        style={styles.deleteButtonStyle}
-                        onPress={handleDelete}
-                        icon="delete"
-                    >
-                        Delete Appointment
+            {(role === 'vet' || role === 'admin') && (
+                <View style={styles.buttonContainer}>
+                    <Button mode="contained" onPress={handleEdit} style={styles.button} icon="pencil">
+                        Edit
+                    </Button>
+                    <Button mode="contained" onPress={handleDelete} style={[styles.button, styles.deleteButton]} icon="trash-can">
+                        Delete
                     </Button>
                 </View>
             )}
@@ -231,12 +203,17 @@ const styles = StyleSheet.create({
         color: 'red',
         fontWeight: 'bold',
     },
-    deleteButton: {
+    buttonContainer: {
         marginTop: 20,
         width: '100%',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
     },
-    deleteButtonStyle: {
-        width: '100%',
-        borderRadius: 8,
+    button: {
+        flex: 1,
+        marginHorizontal: 8,
+    },
+    deleteButton: {
+        backgroundColor: '#ff4d4d',
     },
 });
