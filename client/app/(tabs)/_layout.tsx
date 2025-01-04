@@ -1,5 +1,21 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Tabs } from 'expo-router';
+import { IconButton } from 'react-native-paper';
+import { useNavigation } from 'expo-router';
+
+function BackButton() {
+    const navigation = useNavigation();
+
+    return (
+        <IconButton
+            icon="arrow-left"
+            size={24}
+            onPress={() => navigation.goBack()}
+            style={{ marginLeft: 10 }}
+            iconColor="blue"
+        />
+    );
+}
 
 export default function TabLayout() {
     return (
@@ -12,38 +28,43 @@ export default function TabLayout() {
                 }}
             />
             <Tabs.Screen
-                name='appointments/index'
+                name="appointments/index"
                 options={{
                     title: 'Appointments',
                     tabBarIcon: ({ color }) => <FontAwesome size={28} name="calendar" color={color} />,
+                    headerLeft: () => <BackButton />,
                 }}
             />
             <Tabs.Screen
-                name = 'settings'
+                name="settings"
                 options={{
                     title: 'Settings',
                     tabBarIcon: ({ color }) => <FontAwesome size={28} name="cog" color={color} />,
+                    headerLeft: () => <BackButton />,
                 }}
             />
-            <Tabs.Screen 
-                name='appointments/[id]/index'
+            <Tabs.Screen
+                name="appointments/[id]/index"
                 options={{
                     title: 'Appointment Details',
-                    href: null
+                    href: null,
+                    headerLeft: () => <BackButton />,
                 }}
             />
-            <Tabs.Screen 
-                name='appointments/create'
+            <Tabs.Screen
+                name="appointments/create"
                 options={{
                     title: 'Create Appointment',
-                    href: null
+                    href: null,
+                    headerLeft: () => <BackButton />,
                 }}
             />
-            <Tabs.Screen 
-                name='appointments/[id]/edit'
+            <Tabs.Screen
+                name="appointments/[id]/edit"
                 options={{
                     title: 'Edit Appointment',
-                    href: null
+                    href: null,
+                    headerLeft: () => <BackButton />,
                 }}
             />
         </Tabs>
