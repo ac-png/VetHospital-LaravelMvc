@@ -93,9 +93,27 @@ export default function Tab() {
         console.log('Edit button clicked');
     };
 
-    const handleDelete = () => {
-        console.log('Delete button clicked');
+    const handleDelete = async () => {
+        try {
+            const response = await axios.delete(
+                `http://localhost:5001/api/appointments/${id}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${session}`,
+                    },
+                }
+            );
+            if (response.status === 200) {
+                navigation.navigate('appointments/index');
+            }
+        } catch (err: any) {
+            setError('Failed to delete appointment');
+            console.error("Error deleting appointment:", err);
+        }
     };
+    
+    
+    
 
     if (loading) {
         return (
