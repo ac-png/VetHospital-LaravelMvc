@@ -89,10 +89,6 @@ export default function Tab() {
         fetchAppointment();
     }, [id, session]);
 
-    const handleEdit = () => {
-        console.log('Edit button clicked');
-    };
-
     const handleDelete = async () => {
         try {
             const response = await axios.delete(
@@ -168,7 +164,7 @@ export default function Tab() {
 
             {(role === 'vet' || role === 'admin') && (
                 <View style={styles.buttonContainer}>
-                    <Button mode="contained" onPress={handleEdit} style={styles.button} icon="pencil">
+                    <Button mode="contained" onPress={() => navigation.navigate('appointments/[id]/edit', { id: appointment._id })} style={styles.button} icon="pencil">
                         Edit
                     </Button>
                     <Button mode="contained" onPress={handleDelete} style={[styles.button, styles.deleteButton]} icon="trash-can">
