@@ -39,3 +39,9 @@ These credentials can be used to log in via the login page or API.
 #### Important Note:
 
 Currently, there is **no registration feature** in the frontend to create new users. The backend registration functionality works, but users must be created manually or via backend tools (such as Postman or API requests). The credentials above are the only valid ones for logging into the frontend until the registration feature is added.
+
+## Links
+
+[GitHub Repo - VetHospital](https://github.com/ac-png/VetHospital)
+
+[Figma Wireframe](https://www.figma.com/design/GhZ08p8Hvyg9151sbSYonC/Wireframe?m=auto&t=SPcNfaCmsVUj5weX-6)
