@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, Alert } from 'react-native';
-import { Button, Text, TextInput, HelperText, Menu, Provider, Surface } from 'react-native-paper';
+import { Button, Text, TextInput, HelperText, Menu, Provider, Surface, MD3LightTheme } from 'react-native-paper';
 import axios from 'axios';
 import { useSession } from '@/contexts/AuthContext';
 import { jwtDecode } from 'jwt-decode';
@@ -102,115 +102,113 @@ export default function CreateAppointment() {
     };
 
     return (
-        <Provider>
-            <View style={styles.container}>
-                <Text style={styles.heading}>Create Appointment</Text>
-                <Surface style={styles.formContainer}>
-                    <TextInput
-                        label="Date (YYYY-MM-DDTHH:mm:ss)"
-                        value={date}
-                        onChangeText={setDate}
-                        style={styles.input}
-                    />
-                    <HelperText type="error" visible={!isDateValid(date) && date.length > 0}>
-                        Please select a valid date.
-                    </HelperText>
-                    <TextInput
-                        label="Reason"
-                        value={reason}
-                        onChangeText={setReason}
-                        style={styles.input}
-                    />
-                    <TextInput
-                        label="Notes"
-                        value={notes}
-                        onChangeText={setNotes}
-                        style={styles.input}
-                        multiline
-                    />
-                    <Menu
-                        visible={patientMenuVisible}
-                        onDismiss={() => setPatientMenuVisible(false)}
-                        anchor={
-                            <Button
-                                mode="outlined"
-                                onPress={() => setPatientMenuVisible(true)}
-                                style={styles.selectButton}
-                            >
-                                {patient ? `${patient.name}` : 'Select Patient'}
-                            </Button>
-                        }
-                    >
-                        {patients.map((patientItem) => (
-                            <Menu.Item
-                                key={patientItem._id}
-                                onPress={() => { 
-                                    setPatient({ _id: patientItem._id, name: patientItem.name }); 
-                                    setPatientMenuVisible(false); 
-                                }}
-                                title={patientItem.name}
-                            />
-                        ))}
-                    </Menu>
-                    <Menu
-                        visible={veterinarianMenuVisible}
-                        onDismiss={() => setVeterinarianMenuVisible(false)}
-                        anchor={
-                            <Button
-                                mode="outlined"
-                                onPress={() => setVeterinarianMenuVisible(true)}
-                                style={styles.selectButton}
-                            >
-                                {veterinarian ? `${veterinarian.name}` : 'Select Veterinarian'}
-                            </Button>
-                        }
-                    >
-                        {veterinarians.map((vet) => (
-                            <Menu.Item
-                                key={vet._id}
-                                onPress={() => { 
-                                    setVeterinarian({ _id: vet._id, name: vet.name }); 
-                                    setVeterinarianMenuVisible(false); 
-                                }}
-                                title={vet.name}
-                            />
-                        ))}
-                    </Menu>
-                    <Menu
-                        visible={hospitalMenuVisible}
-                        onDismiss={() => setHospitalMenuVisible(false)}
-                        anchor={
-                            <Button
-                                mode="outlined"
-                                onPress={() => setHospitalMenuVisible(true)}
-                                style={styles.selectButton}
-                            >
-                                {hospital ? `${hospital.name}` : 'Select Hospital'}
-                            </Button>
-                        }
-                    >
-                        {hospitals.map((hospitalItem) => (
-                            <Menu.Item
-                                key={hospitalItem._id}
-                                onPress={() => { 
-                                    setHospital({ _id: hospitalItem._id, name: hospitalItem.name }); 
-                                    setHospitalMenuVisible(false); 
-                                }}
-                                title={hospitalItem.name}
-                            />
-                        ))}
-                    </Menu>
-                    <Button
-                        mode="contained"
-                        onPress={handleSubmit}
-                        style={styles.submitButton}
-                        labelStyle={styles.buttonLabel}
-                    >
-                        Create Appointment
-                    </Button>
-                </Surface>
-            </View>
-        </Provider>
+        <View style={styles.container}>
+            <Text style={styles.heading}>Create Appointment</Text>
+            <Surface style={styles.formContainer}>
+                <TextInput
+                    label="Date (YYYY-MM-DDTHH:mm:ss)"
+                    value={date}
+                    onChangeText={setDate}
+                    style={styles.input}
+                />
+                <HelperText type="error" visible={!isDateValid(date) && date.length > 0}>
+                    Please select a valid date.
+                </HelperText>
+                <TextInput
+                    label="Reason"
+                    value={reason}
+                    onChangeText={setReason}
+                    style={styles.input}
+                />
+                <TextInput
+                    label="Notes"
+                    value={notes}
+                    onChangeText={setNotes}
+                    style={styles.input}
+                    multiline
+                />
+                <Menu
+                    visible={patientMenuVisible}
+                    onDismiss={() => setPatientMenuVisible(false)}
+                    anchor={
+                        <Button
+                            mode="outlined"
+                            onPress={() => setPatientMenuVisible(true)}
+                            style={styles.selectButton}
+                        >
+                            {patient ? `${patient.name}` : 'Select Patient'}
+                        </Button>
+                    }
+                >
+                    {patients.map((patientItem) => (
+                        <Menu.Item
+                            key={patientItem._id}
+                            onPress={() => { 
+                                setPatient({ _id: patientItem._id, name: patientItem.name }); 
+                                setPatientMenuVisible(false); 
+                            }}
+                            title={patientItem.name}
+                        />
+                    ))}
+                </Menu>
+                <Menu
+                    visible={veterinarianMenuVisible}
+                    onDismiss={() => setVeterinarianMenuVisible(false)}
+                    anchor={
+                        <Button
+                            mode="outlined"
+                            onPress={() => setVeterinarianMenuVisible(true)}
+                            style={styles.selectButton}
+                        >
+                            {veterinarian ? `${veterinarian.name}` : 'Select Veterinarian'}
+                        </Button>
+                    }
+                >
+                    {veterinarians.map((vet) => (
+                        <Menu.Item
+                            key={vet._id}
+                            onPress={() => { 
+                                setVeterinarian({ _id: vet._id, name: vet.name }); 
+                                setVeterinarianMenuVisible(false); 
+                            }}
+                            title={vet.name}
+                        />
+                    ))}
+                </Menu>
+                <Menu
+                    visible={hospitalMenuVisible}
+                    onDismiss={() => setHospitalMenuVisible(false)}
+                    anchor={
+                        <Button
+                            mode="outlined"
+                            onPress={() => setHospitalMenuVisible(true)}
+                            style={styles.selectButton}
+                        >
+                            {hospital ? `${hospital.name}` : 'Select Hospital'}
+                        </Button>
+                    }
+                >
+                    {hospitals.map((hospitalItem) => (
+                        <Menu.Item
+                            key={hospitalItem._id}
+                            onPress={() => { 
+                                setHospital({ _id: hospitalItem._id, name: hospitalItem.name }); 
+                                setHospitalMenuVisible(false); 
+                            }}
+                            title={hospitalItem.name}
+                        />
+                    ))}
+                </Menu>
+                <Button
+                    mode="contained"
+                    onPress={handleSubmit}
+                    style={styles.submitButton}
+                    labelStyle={styles.buttonLabel}
+                >
+                    Create Appointment
+                </Button>
+            </Surface>
+        </View>
     );
 }
 
@@ -235,7 +233,6 @@ const styles = StyleSheet.create({
     },
     input: {
         marginBottom: 12,
-        backgroundColor: '#fff',
     },
     selectButton: {
         marginBottom: 12,
